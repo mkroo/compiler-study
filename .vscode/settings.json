@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "vector": "cpp",
+    "__bit_reference": "cpp",
+    "bitset": "cpp",
+    "map": "cpp",
+    "unordered_map": "cpp",
+    "chrono": "cpp",
+    "iosfwd": "cpp",
+    "iostream": "cpp",
+    "ostream": "cpp"
+  }
+}
