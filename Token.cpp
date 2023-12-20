@@ -1,11 +1,12 @@
 #include <map>
 #include <iomanip>
-#include "Kind.h"
+#include "Token.h"
 
 using std::map;
-using std::string;
+using std::setw;
+using std::left;
 
-static map<string, Kind> stringToKind = {
+map<string, Kind> stringToKind = {
   {"#unknown",    Kind::Unknown},
   {"#EndOfToken", Kind::EndOfToken},
 
@@ -57,7 +58,7 @@ static map<string, Kind> stringToKind = {
   {"]",           Kind::RightBraket},
 };
 
-static auto kindToString = [] {
+map<Kind, string> kindToString = [] {
   map<Kind, string> result;
   for (auto& [key, value] : stringToKind)
     result[value] = key;
@@ -74,4 +75,8 @@ string toString(Kind kind) {
   if (kindToString.count(kind))
     return kindToString.at(kind);
   return "";
+}
+
+ostream& operator<<(ostream& stream, Token& token) {
+  return stream << setw(20) << left << toString(token.kind) << token.string;
 }

@@ -1,26 +1,27 @@
+#include "Scanner.h"
+#include "Parser.h"
+#include "Printer.h"
+
 #include <iostream>
 #include <iomanip>
-#include "Token.h"
 
-using namespace std;
-
-vector<Token> scan(string);
-
-void printTokenList(vector<Token> tokenList) {
-  for (Token token : tokenList) {
-    cout << setw(20) << left << toString(token.kind) << token.string << endl;
-  }
-}
+using std::cout;
+using std::endl;
 
 int main() {
   string sourceCode = R""""(
     function main() {
-      printLine 'Hello, World!';
-      printLine 1 + 2 * 3;
+      print 'Hello, World!';
     }
   )"""";
+
   vector<Token> tokenList = scan(sourceCode);
   printTokenList(tokenList);
+
+  cout << "--------------" << endl;
+  
+  auto syntaxTree = parse(tokenList);
+  printSyntaxTree(syntaxTree);
 
   return 0;
 }

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <iomanip>
-#include "Token.h"
+#include "Scanner.h"
 
-using namespace std;
-
-static string::iterator current;
+using std::cout;
+using std::vector;
+using std::string;
 
 enum class CharType
 {
@@ -15,6 +15,46 @@ enum class CharType
   IdentifierAndKeyword,
   OperatorAndPunctuator,
 };
+
+static Token scanNumberLiteral();
+static Token scanStringLiteral();
+static Token scanIdentifierAndKeyword();
+static Token scanOperatorAndPunctuator();
+static CharType getCharType(char);
+static bool isCharType(char, CharType);
+
+static string::iterator current;
+
+vector<Token> scan(string sourceCode) {
+  vector<Token> result;
+  sourceCode += '\0';
+
+  current = sourceCode.begin();
+  while (*current != '\0') {
+    switch (getCharType(*current)) {
+      case CharType::WhiteSpace:
+        current += 1;
+        break;
+      case CharType::NumberLiteral:
+        result.push_back(scanNumberLiteral());
+        break;
+      case CharType::StringLiteral:
+        result.push_back(scanStringLiteral());
+        break;
+      case CharType::IdentifierAndKeyword:
+        result.push_back(scanIdentifierAndKeyword());
+        break;
+      case CharType::OperatorAndPunctuator:
+        result.push_back(scanOperatorAndPunctuator());
+        break;
+      default:
+        cout << *current << "사용할 수 없는 문자입니다.";
+        exit(1);
+      }
+  }
+  result.push_back({Kind::EndOfToken});
+  return result;
+}
 
 CharType getCharType(char c) {
   if (' ' == c || '\t' == c || '\n' == c || '\r' == c)
@@ -105,35 +145,4 @@ Token scanOperatorAndPunctuator() {
     exit(1);
   }
   return Token{toKind(string), string};
-}
-
-vector<Token> scan(string sourceCode) {
-  vector<Token> result;
-  sourceCode += '\0';
-
-  current = sourceCode.begin();
-  while (*current != '\0') {
-    switch (getCharType(*current)) {
-      case CharType::WhiteSpace:
-        current += 1;
-        break;
-      case CharType::NumberLiteral:
-        result.push_back(scanNumberLiteral());
-        break;
-      case CharType::StringLiteral:
-        result.push_back(scanStringLiteral());
-        break;
-      case CharType::IdentifierAndKeyword:
-        result.push_back(scanIdentifierAndKeyword());
-        break;
-      case CharType::OperatorAndPunctuator:
-        result.push_back(scanOperatorAndPunctuator());
-        break;
-      default:
-        cout << *current << "사용할 수 없는 문자입니다.";
-        exit(1);
-      }
-  }
-  result.push_back({Kind::EndOfToken});
-  return result;
 }
