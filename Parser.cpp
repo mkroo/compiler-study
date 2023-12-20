@@ -4,7 +4,6 @@
 
 using std::string;
 using std::cout;
-using std::endl;
 using std::set;
 
 static Function* parseFunction();
@@ -47,7 +46,6 @@ Program* parse(vector<Token> tokens) {
   Program* result = new Program();
   current = tokens.begin();
   while (current->kind != Kind::EndOfToken) {
-    cout << "!!!!" << endl;
     switch (current->kind) {
       case Kind::Function: {
         result->functions.push_back(parseFunction());
