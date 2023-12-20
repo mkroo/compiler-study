@@ -127,7 +127,7 @@ Token scanIdentifierAndKeyword() {
   Kind kind = toKind(string);
   if (kind == Kind::Unknown)
     kind = Kind::Identifier;
-  return Token{Kind::Identifier, string};
+  return Token{kind, string};
 }
 
 Token scanOperatorAndPunctuator() {
