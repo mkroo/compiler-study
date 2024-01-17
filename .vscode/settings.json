@@ -8,6 +8,21 @@
     "chrono": "cpp",
     "iosfwd": "cpp",
     "iostream": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "any": "cpp",
+    "variant": "cpp",
+    "__node_handle": "cpp",
+    "atomic": "cpp",
+    "__memory": "cpp",
+    "limits": "cpp",
+    "locale": "cpp",
+    "optional": "cpp",
+    "ratio": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "cstddef": "cpp",
+    "__tuple": "cpp",
+    "array": "cpp"
   }
 }

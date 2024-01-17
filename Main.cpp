@@ -1,6 +1,6 @@
 #include "Scanner.h"
 #include "Parser.h"
-#include "Printer.h"
+#include "Interpreter.h"
 
 #include <iostream>
 #include <iomanip>
@@ -11,17 +11,16 @@ using std::endl;
 int main() {
   string sourceCode = R""""(
     function main() {
+      for i = 0, i < 10, i = i + 1 {
+        printLine i;
+      }
       print 'Hello, World!';
     }
   )"""";
 
   vector<Token> tokenList = scan(sourceCode);
-  printTokenList(tokenList);
-
-  cout << "--------------" << endl;
-  
   auto syntaxTree = parse(tokenList);
-  printSyntaxTree(syntaxTree);
+  interpret(syntaxTree);
 
   return 0;
 }

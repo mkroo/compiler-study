@@ -2,7 +2,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <any>
+#include "Token.h"
 
+using std::any;
 using std::vector;
 using std::map;
 using std::string;
@@ -12,29 +15,29 @@ struct Program {
 };
 
 struct Statement {
-  virtual void print(int) = 0;
+  virtual void interpret() = 0;
 };
 
 struct Expression {
-  virtual void print(int) = 0;
+  virtual any interpret() = 0;
 };
 
 struct Function: Statement {
   string name;
   vector<string> parameters;
   vector<Statement*> block;
-  void print(int);
+  void interpret();
 };
 
 struct Variable: Statement {
   string name;
   Expression* expression;
-  void print(int);
+  void interpret();
 };
 
 struct Return: Statement {
   Expression* expression;
-  void print(int);
+  void interpret();
 };
 
 struct For: Statement {
@@ -42,122 +45,122 @@ struct For: Statement {
   Expression* condition;
   Expression* expression;
   vector<Statement*> block;
-  void print(int);
+  void interpret();
 };
 
 struct Break: Statement {
-  void print(int);
+  void interpret();
 };
 
 struct Continue: Statement {
-  void print(int);
+  void interpret();
 };
 
 struct If: Statement {
   vector<Expression*> conditions;
   vector<vector<Statement*>> blocks;
   vector<Statement*> elseBlock;
-  void print(int);
+  void interpret();
 };
 
 struct Print: Statement {
   bool lineFeed = false;
   vector<Expression*> arguments;
-  void print(int);
+  void interpret();
 };
 
 struct ExpressionStatement: Statement {
   Expression* expression;
-  void print(int);
+  void interpret();
 };
 
 struct Or: Expression {
   Expression* lhs;
   Expression* rhs;
-  void print(int);
+  any interpret();
 };
 
 struct And: Expression {
   Expression* lhs;
   Expression* rhs;
-  void print(int);
+  any interpret();
 };
 
 struct Relational: Expression {
   Kind kind;
   Expression* lhs;
   Expression* rhs;
-  void print(int);
+  any interpret();
 };
 
 struct Arithmetic: Expression {
   Kind kind;
   Expression* lhs;
   Expression* rhs;
-  void print(int);
+  any interpret();
 };
 
 struct Unary: Expression {
   Kind kind;
   Expression* sub;
-  void print(int);
+  any interpret();
 };
 
 struct Call: Expression {
   Expression* sub;
   vector<Expression*> arguments;
-  void print(int);
+  any interpret();
 };
 
 struct GetElement: Expression {
   Expression* sub;
   Expression* index;
-  void print(int);
+  any interpret();
 };
 
 struct SetElement: Expression {
   Expression* sub;
   Expression* index;
   Expression* value;
-  void print(int);
+  any interpret();
 };
 
 struct GetVariable: Expression {
   string name;
-  void print(int);
+  any interpret();
 };
 
 struct SetVariable: Expression {
   string name;
   Expression* value;
-  void print(int);
+  any interpret();
 };
 
 struct NullLiteral: Expression {
-  void print(int);
+  any interpret();
 };
 
 struct BooleanLiteral: Expression {
   bool value = false;
-  void print(int);
+  any interpret();
 };
 
 struct NumberLiteral: Expression {
   double value = 0.0;
-  void print(int);
+  any interpret();
 };
 
 struct StringLiteral: Expression {
   string value;
-  void print(int);
+  any interpret();
 };
 
 struct ArrayLiteral: Expression {
   vector<Expression*> values;
-  void print(int);
+  any interpret();
 };
 
 struct MapLiteral: Expression {
   map<string, Expression*> values;
-  void print(int);
+  any interpret();
 };
