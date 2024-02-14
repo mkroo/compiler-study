@@ -1,7 +1,7 @@
 #include "Scanner.h"
 #include "Parser.h"
-#include "Interpreter.h"
 #include "Generator.h"
+#include "Machine.h"
 
 #include <iostream>
 #include <iomanip>
@@ -12,19 +12,23 @@ using std::endl;
 int main() {
   string sourceCode = R""""(
     function main() {
-      for i = 0, i < 10, i = i + 1 {
-        printLine i;
+      print factorial(3);
+    }
+
+    function factorial(n) {
+      if (n < 2) {
+        return 1;
       }
-      print 'Hello, World!';
+
+      return n * factorial(n - 1);
     }
   )"""";
 
   vector<Token> tokenList = scan(sourceCode);
   auto syntaxTree = parse(tokenList);
-  
-  interpret(syntaxTree);
   tuple<vector<Code>, map<string, size_t>> objectCode = generate(syntaxTree);
   printObjectCode(objectCode);
+  execute(objectCode);
 
   return 0;
 }
